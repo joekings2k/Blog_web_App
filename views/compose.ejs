@@ -1,0 +1,24 @@
+<%- include("./partials/header")-%>
+
+<h1 class="mt-2">compose</h1>
+<form action="/compose" method="post" class="composeform">
+  <div class="titlediv mt-5">
+    <label for="title">Title:</label>
+    <input type="text" name="userTitle" class="title" placeholder="Title" />
+  </div>
+  <div class="composediv mt-3">
+    <label for="floatingTextarea2">Compose:</label>
+    <div class="form-floating">
+            <textarea
+            name="compose"
+            class="form-control"
+            placeholder="Leave a comment here"
+            id="floatingTextarea2"
+            style="height: 100px"
+            ></textarea>
+            <label for="floatingTextarea2">Whats on your mind</label>
+    </div>
+  </div>
+  <button type="submit" name="btn" class="mt-4 btnPublish">Publish</button>
+</form>
+<%- include("./partials/footer")-%>

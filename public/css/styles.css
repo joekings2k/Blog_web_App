@@ -1,0 +1,86 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+.container-fluid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.navbar {
+    background-color: rgb(232, 232, 232);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+.navbar-nav  li a:hover {
+    color: #1abc9c !important;
+}
+.postslink{
+    text-decoration: none;
+}
+.composelink{
+    padding: 7px;
+    background-color: #1abc9c;
+    border: none;
+    box-shadow: 1px 2px rgb(55, 54, 54);
+}
+.composelinkin{
+    color: aliceblue;
+}
+p{
+   font-size: 16px; 
+}
+.composeform{
+    width: 100%;
+}
+.titlediv{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    width: 100%;
+}
+.composediv{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.compose{
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+.btnPublish{
+    box-shadow: 1px 2px rgb(35, 35, 35);
+    border: none;
+    color: white;
+    padding: 7px;
+    background-color: #1abc9c;
+}
+.clicked{
+    background-color: grey;
+}
+.footer-padding {
+	padding-bottom: 60px;
+}
+
+.footer {
+	position: absolute;
+	text-align: center;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #1abc9c;
+}
+
+.footer p {
+	margin-top: 25px;
+	font-size: 14px;
+  color: rgb(225, 223, 223);
+}
