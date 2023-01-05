@@ -1,6 +1,10 @@
 const express = require("express");
 const ejs = require("ejs");
 const lodash = require("lodash");
+const mongoose= require("mongoose")
+const blogP = require("./blogP")
+const Posts = blogP.posts
+
 
 const homeStartingContent =
   "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -12,6 +16,34 @@ const contactContent =
 const app = express();
 let posts = [];
 
+let conn = async () => {
+  mongoose.set("strictQuery", false);
+  mongoose.connect(
+    "mongodb://0.0.0.0:27017/BlogPostsDB",
+    () => {
+      console.log("connected");
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+};
+conn();
+
+let insertO = (collection,title,content) => {
+  try {
+    const post = new collection({
+      title:lodash.capitalize(title),
+      content: content,
+    });
+    post.save();
+    console.log("item inserted");
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+// insertO(homeStartingContent,Posts)
+
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +51,20 @@ app.use("/public", express.static("public"));
 //for the home route
 
 app.get("/", (req, res) => {
-  res.render("home", { firstHomeContent: homeStartingContent, Posts: posts });
+  let fin = async()=>{
+    try{
+      let result = await Posts.find({});
+       res.render("home", {
+         firstHomeContent: homeStartingContent,
+         Posts: result,
+       });
+    }catch(err){
+      console.log(err.message)
+    }
+  }
+  fin()
+  
+ 
 });
 app.post("/", (req, res) => {
   console.log(req.body.home);
@@ -40,26 +85,29 @@ app.get("/compose", (req, res) => {
   res.render("compose");
 });
 app.post("/compose", (req, res) => {
-  let post = { Title: "", Compose: "" };
+  
   let title = req.body.userTitle;
   let compose = req.body.compose;
-  post.Title = title;
-  post.Compose = compose;
-  posts.push(post);
-
-  res.redirect("/");
+  if (title== ""||compose ==""){
+    res.redirect("/")
+  }else{
+    insertO(Posts, title, compose);
+    res.redirect("/");
+  }
+  
 });
 // reroute
 app.get("/posts/:postsid", (req, res) => {
-  let posteRoute = lodash.lowerCase(req.params.postsid);
-  posts.map((value) => {
-    if (posteRoute == value.Title) {
-      res.render("post", { postTitle: value.Title, postBody: value.Compose });
-      console.log("suceesful");
-    } else {
-      console.log("tryagian");
+  let posteRoute = lodash.capitalize(req.params.postsid);
+  Posts.findOne({title:posteRoute},(err,result)=>{
+    if(posteRoute ===  result.title){
+       res.render("post", { postTitle: result.title, postBody:result.content});
+    }else{
+      console.log("page not available")
+      res.redirect("/")
     }
-  });
+  })
+ 
 });
 
 app.listen(process.env.PORT || 3000, function () {

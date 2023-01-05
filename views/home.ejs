@@ -9,8 +9,8 @@
 <%};%>
 <p><%= firstHomeContent %></p>
 <%Posts.map((value)=>{%>
-    <h3><%=value.Title%></h3>
-    <p><%= truncate(value.Compose,100)%> <a class="postslink" href="http://localhost:3000/posts/<%=value.Title%>">See More</a></p>
+    <h3><%=value.title%></h3>
+    <p><%= truncate(value.content,100)%> <a class="postslink" href="http://localhost:3000/posts/<%=value.title%>">See More</a></p>
 <%})%>
 
 <button class="composelink"><a href="http://localhost:3000/compose" class="postslink composelinkin">Compose</a></button>
